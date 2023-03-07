@@ -40,10 +40,15 @@ def _get_session(base_url: str):
     return session
 
 
+def _get(url: str) -> Response:
+    with _get_session(url) as session:
+        res: Response = session.get(url)
+        return res
+
+
 def get_site() -> bytes:
-    with _get_session(ALL_FILM_LIST_SITE) as session:
-        res: Response = session.get(ALL_FILM_LIST_SITE)
-        return res.content
+    res = _get(ALL_FILM_LIST_SITE)
+    return res.content
 
 
 def get_all_posters(html_doc: bytes) -> List[Tuple[str, str]]:
@@ -61,12 +66,11 @@ def get_all_posters(html_doc: bytes) -> List[Tuple[str, str]]:
 def downloader(name: str, url: str):
     path = f"src/{name}.jpg"
     if os.path.isfile(path):
-        # print(f"{path} exists, skip")
         return
     else:
         print(f"{path} exists, skip")
-    with open(path, "wb+") as f, _get_session(POSTER_BASE_URL) as session:
-        res = session.get(url)
+    with open(path, "wb+") as f:
+        res = _get(url)
         res.raise_for_status()
         f.write(res.content)
 
