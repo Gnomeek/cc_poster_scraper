@@ -66,9 +66,8 @@ def get_all_posters(html_doc: bytes) -> List[Tuple[str, str]]:
 def downloader(name: str, url: str):
     path = f"src/{name}.jpg"
     if os.path.isfile(path):
-        return
-    else:
         print(f"{path} exists, skip")
+        return
     with open(path, "wb+") as f:
         res = _get(url)
         res.raise_for_status()
