@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["gnomeek <gnomeek@outlook.com>"]
 readme = "README.md"
-packages = [{include = "cc_poster_scraper"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
