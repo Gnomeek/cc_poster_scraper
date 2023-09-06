@@ -30,14 +30,21 @@ jobs:
       - name: Execute py script
         run: poetry run python main.py
 
-      - name: Commit files
+      - name: Check if there are any changes
+        id: verify_diff
+        run: |
+          git diff --quiet . || echo "changed=true" >> $GITHUB_OUTPUT
+
+      - name: Commit changes if any
+        if: steps.verify_diff.outputs.changed == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add -A
           git commit -m ":card_file_box: Update posters incrementally." -a
 
-      - name: Push changes
+      - name: Push changes if any
+        if: steps.verify_diff.outputs.changed == 'true'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
