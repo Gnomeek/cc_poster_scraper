@@ -2,7 +2,7 @@ name: download_cc_poster_daily
 
 on:
   schedule:
-    - cron: '0 6 * * *' # 6:00 UTC everyday
+    - cron: '0 6 * * 1' # Runs at 06:00 every Monday.
   workflow_dispatch:
 
 jobs:
